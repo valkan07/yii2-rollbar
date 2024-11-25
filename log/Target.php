@@ -26,7 +26,7 @@ class Target extends \yii\log\Target
     {
         foreach ($this->messages as $message) {
             $levelName = self::getLevelName($message[1]);
-            Rollbar::log(Level::$levelName(), $message[0], [
+            Rollbar::log(constant(Level::class."::".strtoupper($levelName)), $message[0], [
                 'category' => $message[2],
                 'request_id' => $this->requestId,
                 'timestamp' => (int)$message[3],
