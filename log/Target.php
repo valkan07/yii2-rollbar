@@ -15,6 +15,10 @@ class Target extends \yii\log\Target
      */
     public function init()
     {
+        if (empty($this->rollbar)) {
+            throw new \Exception('Rollbar component must be set!');
+        }
+
         $this->requestId = uniqid(gethostname(), true);
         parent::init();
     }
@@ -26,7 +30,7 @@ class Target extends \yii\log\Target
     {
         foreach ($this->messages as $message) {
             $levelName = self::getLevelName($message[1]);
-            Rollbar::log(constant(Level::class."::".strtoupper($levelName)), $message[0], [
+            $this->rollbar->log(constant(Level::class."::".strtoupper($levelName)), $message[0], [
                 'category' => $message[2],
                 'request_id' => $this->requestId,
                 'timestamp' => (int)$message[3],
