@@ -8,6 +8,9 @@ use yii\log\Logger;
 
 class Target extends \yii\log\Target
 {
+
+    use GetRollbarTrait;
+
     protected $requestId;
 
     /**
